@@ -8,11 +8,6 @@ from sqlalchemy.orm import Session
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
-#https://github.com/pydantic/pydantic/issues/3320
-#class BaseModel(PydanticBaseModel):
-    #class Config:
-        #arbitrary_types_allowed = True
-
 class PostBase(BaseModel):
     title: str
     content: str

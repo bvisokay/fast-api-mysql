@@ -2,3 +2,6 @@ fastapi==0.70.0
 uvicorn==0.15
 pyJWT==1.7.1
 python-decouple==3.3
+SQLAlchemy==2.0.19
+PyMySQL==1.1.0
+

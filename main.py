@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Body, Depends, HTTPException, status
-from pydantic import BaseModel 
+from pydantic import BaseModel
+from pydantic import ValidationError
 from typing import Annotated
 import models
 from database import engine, SessionLocal
@@ -34,9 +35,12 @@ async def read_post(post_id: int, db: db_dependency):
 
 @app.post("/posts/", tags=["Posts"], status_code=status.HTTP_201_CREATED)
 async def create_post(post: PostBase, db: db_dependency):
-    db_post = models.Post(**post.model_dump())
-    db.add(db_post)
-    db.commit()
+    try:
+        db_post = models.Post(**post.model_dump())
+        db.add(db_post)
+        db.commit()
+    except ValidationError as e:
+        print(e.errors())
 
 @app.delete("/posts/{post_id}", status_code=status.HTTP_200_OK)
 async def delete_post(post_id: int, db: db_dependency):
